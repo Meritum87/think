@@ -2,6 +2,10 @@ require_relative 'station'
 require_relative 'train'
 require_relative 'route'
 require_relative 'wagon'
+require_relative 'cargotrain'
+require_relative 'passengertrain'
+require_relative 'cargowagon'
+require_relative 'passengerwagon'
 
 puts 'Приветствуем Вас в симуляторе РЖД. Как и в оригинале, все плохо, но работает!'
 
@@ -69,6 +73,8 @@ class Control
     end
   end
 
+private # методы ниже вызываются только другими методами
+
   def create_station
     puts 'Введите название станции:'
     name = gets.chomp
@@ -81,15 +87,9 @@ class Control
     puts 'Введите номер поезда:'
     number = gets.chomp
 
-    if type_train == 1
-      @trains_list << PassengerTrain.new(number)
-    else
-    end
+    @trains_list << PassengerTrain.new(number) if type_train == 1
 
-    if type_train == 2
-      @trains_list << CargoTrain.new(number)
-    else
-    end
+    @trains_list << CargoTrain.new(number) if type_train == 2
   end
 
   def crete_route
@@ -121,15 +121,9 @@ class Control
     puts 'Введите номер вагона:'
     number = gets.chomp
 
-    if type_wagon == 1
-      @wagons_list << PassengerWagon.new(number)
-    else
-    end
+    @wagons_list << PassengerWagon.new(number) if type_wagon == 1
 
-    if type_wagon == 2
-      @wagons_list << CargoWagon.new(number)
-    else
-    end
+    @wagons_list << CargoWagon.new(number) if type_wagon == 2
   end
 
   def add_station
