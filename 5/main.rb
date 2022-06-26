@@ -1,3 +1,5 @@
+require_relative 'instance_counter'
+require_relative 'manufacturer'
 require_relative 'station'
 require_relative 'train'
 require_relative 'route'
@@ -6,19 +8,16 @@ require_relative 'cargo_train'
 require_relative 'passenger_train'
 require_relative 'cargo_wagon'
 require_relative 'passenger_wagon'
-require_relative 'manufacturer'
-require_relative 'instance_counter'
 
 puts 'Приветствуем Вас в симуляторе РЖД. Как и в оригинале, все плохо, но работает!'
 
 class Control
-  attr_accessor :stations_list, :route, :number_wagon, :manufacturers_list
+  attr_accessor :stations_list, :route, :number_wagon
 
   def initialize
     @stations_list = []
     @trains_list = []
     @wagons_list = []
-    @manufacturers_list = []
   end
 
   def menu
@@ -38,7 +37,6 @@ class Control
     puts '11 - переместить поезд назад'
     puts '12 - посмотреть список станций'
     puts '13 - посмотреть список поездов на станции'
-    puts '14 - создать производителя'
     meaning = gets.chomp.to_i
     meaning_activation(meaning)
     end
@@ -92,12 +90,10 @@ protected
     type_train = gets.chomp.to_i
     puts 'Введите номер поезда:'
     number = gets.chomp
-    puts 'Введите название производителя:'
-    name_manufacturer = gets.chomp
 
-    @trains_list << PassengerTrain.new(number, name_manufacturer) if type_train == 1
+    @trains_list << PassengerTrain.new(number) if type_train == 1
 
-    @trains_list << CargoTrain.new(number, name_manufacturer) if type_train == 2
+    @trains_list << CargoTrain.new(number) if type_train == 2
   end
 
   def crete_route
@@ -128,12 +124,10 @@ protected
     type_wagon = gets.chomp.to_i
     puts 'Введите номер вагона:'
     number = gets.chomp
-    puts 'Введите название производителя:'
-    name_manufacturer = gets.chomp
 
-    @wagons_list << PassengerWagon.new(number,name_manufacturer) if type_wagon == 1
+    @wagons_list << PassengerWagon.new(number) if type_wagon == 1
 
-    @wagons_list << CargoWagon.new(number, name_manufacturer) if type_wagon == 2
+    @wagons_list << CargoWagon.new(number) if type_wagon == 2
   end
 
   def add_station
@@ -251,9 +245,4 @@ protected
     stat.puts_list
   end
 
-  def create_manufacturer
-    puts 'Введите название производителя:'
-    name_manufacturer = gets.chomp
-    @manufacturers_list << Manufacturer.new(name_manufacturer)
-  end
 end

@@ -7,16 +7,13 @@ class Train
   @@trains = []
 
   def self.find(number)
-    tr = nil
-    @@trains.each {|train| tr = train if train.number == number}
-    tr
+    @@trains.find {|train| train.number == number}
   end
 
-  def initialize(number, manufacturer_train)
+  def initialize(number)
     @number = number
     @wagons = []
     @speed = 0
-    @manufacturer_train = manufacturer_train
     @@trains << self
   end
 
