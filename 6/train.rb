@@ -1,6 +1,7 @@
 class Train
   include Manufacturer
   include InstanceCounter
+  include Valid
   attr_reader :number
   attr_accessor :route, :wagons, :current_station
 
@@ -16,8 +17,8 @@ class Train
     @number = number
     @wagons = []
     @speed = 0
-    @@trains << self
     validate!
+    @@trains << self
   end
 
   def speed(speed)
@@ -56,17 +57,12 @@ class Train
     @wagons.delete(wagon)
   end
 
-  def valid?
-    validate!
-  rescue
-    false
-  end
-
 protected
 
   def validate!
-    raise "Не указан номер поезда!" if number.to_s.length < 0
-    raise "Номер поезда указан неверно" if number !~ NUMBER_TRAIN
-    true
+    errors = []
+    errors << "Не указан номер поезда!" if number.to_s.length < 0
+    errors << "Номер поезда указан неверно" if number !~ NUMBER_TRAIN
+    raise errors.join('.')unless errors.empty?
   end
 end

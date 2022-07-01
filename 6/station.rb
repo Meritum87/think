@@ -1,5 +1,6 @@
 class Station
   include InstanceCounter
+  include Valid
   attr_accessor :name
   attr_reader :trains
 
@@ -28,18 +29,11 @@ class Station
   def delete_train(train)
     @trains.delete(train)
   end
-
-  def valid?
-    validate!
-  rescue
-    false
-  end
-
+  
 protected
 
   def validate!
     raise "Не указано название станции!" if name.length < 0
-    true
   end
 
 end

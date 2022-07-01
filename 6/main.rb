@@ -1,3 +1,4 @@
+require_relative 'valid'
 require_relative 'instance_counter'
 require_relative 'manufacturer'
 require_relative 'station'
@@ -20,6 +21,7 @@ class Control
     @stations_list = []
     @trains_list = []
     @wagons_list = []
+    menu
   end
 
   def menu
